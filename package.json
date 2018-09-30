@@ -1,0 +1,19 @@
+{
+  "name": "hospital",
+  "version": "1.0.0",
+  "description": "it just a login page test",
+  "main": "server.js",
+  "scripts": {
+    "test": "bakcend login test",
+    "start": "node server.js"
+  },
+  "author": "backend team",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.6",
+    "mongoose": "^5.2.17"
+  }
+}
