@@ -1,74 +1,139 @@
-let mongoose = require('mongoose');
-let mongodb = require('mongodb');
-let userSchema = mongoose.Schema({
-    username: String,
-    lastname: String
-});
-
-module.exports.User = mongoose.model('User', userSchema);
-module.exports.CreateCollection= function (CollectionName)
+let mongodb = require('mongodb')
+//using mongodb for data base 
+//let nodemailer = require('nodemailer');
+module.exports.CreateCollection= function (collectionName)
 {
     mongodb.connect('mongodb://localhost:27017/',function(err, db){
     if (err) throw err;
-    console.log("connect to database");
+    console.log("you are now connected to your database");
     var dbo = db.db("hospital");
-    dbo.createCollection(CollectionName , function(err , res ){
+    dbo.createCollection(collectionName , function(err , res ){
     if (err) throw err;
-    console.log('creat collection'+CollectionName);
-    //test object :
-    // dbo.collection('user').insertOne({username : 'zahrajan' , password: "1376"},function(err,res){
-    //     if(err) throw err ;
-    //     console.log('zahra is added');
-    // })
+    console.log('creat collection');
+    dbo.collection(collectionName).insertOne({universityCode : 'zahrajan' , password: "1376" , unicode:"610395136"},function(err,res){
+        if(err) throw err ;
+        console.log('zahrajan is added pass : 1376');
+    })
     db.close();
-    });
+});
 });
 }
-module.exports.FindOne= function (CollectionName,User,response)
-{
+//creating a collection in db
+
+module.exports.login= function (collectionName , user, response , page)
+{   let returnable= {pageName : '',
+                user : {}
+            };
+    console.log("slm asisam");
     mongodb.connect('mongodb://localhost:27017/',function(err, db){
         if (err) throw err;
-        console.log("connect to database");
         var dbo = db.db("hospital");
-            dbo.collection(CollectionName).findOne({username: User.username}, function(err ,result){
+            dbo.collection(collectionName).findOne({universityCode: user.universityCode}, function(err ,result){
+                //if exist
+                
                 if(result == null){
-                    console.log(User.username + 'is not sign up before');
-                    response.render('check',{login : 0 ,signup : 0 });
+                    console.log(user.universityCode + " was not found!");
+                    page.last = "/login"
+                    returnable.pageName = 'login';
+                   
                 }
+                //if not 
                 else{       
-
-                    console.log("username was found ");
-                    if(User.username == result.username && User.password == result.password){
+                    if(user.universityCode == result.universityCode && user.password == result.password){
                         //dbo.collection("user").insertOne(user,function(err , res){
-                            console.log("user is accepted")
+                            console.log("user has been added!")
                             if (err) throw err;
-                            response.render('check',{signup : 0 ,login : 1 ,username : User.username , password : User.password});
+                            page.last = "/profile"
+                            returnable.pageName = 'profile';
+                            returnable.user = user;
+                            
                         //});
                     }
-                    else{ 
-                        console.log('password is incorrect');   
-                       // console.log("user pasword is "+ User.password+ "correct password is "+result.password);
-                        response.render('check',{signup : 0 ,login : 0});
+                    else{    
+                        page.last = "/login";
+                        console.log(page);
+                        returnable.pageName = 'login';
+                        
                     }
                 }    
+               
+            
             });
         db.close();
     });
-}  
-module.exports.InsertOne= function (CollectionName,User,response)
+    return(returnable);
+}                  
+
+//find some one in db 
+// if it was in it so render profile
+//else it was render login
+
+module.exports.DeleteMany = function (collectionName)
 {
-mongodb.connect('mongodb://localhost:27017/',function(err, db){
+    mongodb.connect('mongodb://localhost:27017/',function(err, db){
     if (err) throw err;
+    console.log("you are now connected to your database");
     var dbo = db.db("hospital");
-    dbo.collection(CollectionName).insertOne(User,function(err , res){
-        if (err) throw response.render('check',{signup : 0,login : 0})
-        else {
-            console.log('username : '+User.username+' \n password : '+User.password)
-            response.render('check', {login : 0 , signup : 1});
-        }
-    });
+    dbo.collection(collectionName).deleteMany( {}, function(err , res ){
+    if (err) throw err;
+    console.log("all users are deleted !");
+})
+    db.close();
+});
+}
+//delete all users in db
+
+module.exports.InsertOne = function (collectionName,user)
+{
+    mongodb.connect('mongodb://localhost:27017/',function(err, db){
+    if (err) throw err;
+    console.log("you are now connected to your database");
+    var dbo = db.db("hospital");
+    dbo.collection(collectionName).insertOne( user , function(err , res ){
+    if (err) throw err;
+    console.log(user.universityCode + " is added !");
+});
+    db.close();
+});
+}
+//add a user to db
+module.exports.UpdateOne = function (collectionName,pastQuery,newQuery)
+{
+    mongodb.connect('mongodb://localhost:27017/',function(err, db){
+    if (err) throw err;
+    console.log("you are now connected to your database");
+    var dbo = db.db("hospital");
+    dbo.collection(collectionName).updateOne(pastQuery , {$set : newQuery}, function(err , res ){
+    if (err) throw err;
+    console.log(collectionName + " is updated !");
+});
     db.close();
 });
 }
 
-   
+
+///
+/*
+module.exports.C reateTransport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'youremail@gmail.com',
+    pass: 'yourpassword'
+  }
+});
+
+var mailOptions = {
+  from: 'youremail@gmail.com',
+  to: 'myfriend@yahoo.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+*/

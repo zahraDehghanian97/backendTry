@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login Page</title>
+		<link href="assets/login.css" type="text/css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+	</head>
+	<body>
+		<div id="div">
+			<form method = "Post" action="">
+			<!--action = <%= page.profile%> >-->
+				<div class="title">
+					<h1>Let's Login</h1>
+				</div>
+				<div class="inparea">
+					<input placeholder="University Code" type="text" name="universityCode">
+					<input placeholder="password" type="password" name="password">
+				</div>
+				<div>
+					<button type="submit">Login</button>
+                </div>
+
+            </form>
+            <form method = "Post" action= <%= page.signup %> >
+                <button type="submit" >Sign up</button>
+            </form>
+        </div>
+	</body>
+</html>

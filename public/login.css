@@ -1,0 +1,67 @@
+body {
+	font-family: 'Oswald', sans-serif;
+}
+
+#div {
+	text-align: center;
+	background-color: lightgrey;
+	margin: auto;
+    width: 35%;
+    height: 50%;
+    border: 3px solid green;
+    padding: 100px 10px;
+    border-radius: 1000px;
+    margin-top: 100px;
+}
+
+.title {
+	background-color: grey;
+	margin: 5px auto;
+	text-align: center;
+	padding: 10px;
+	width: 200px;
+	border: 5px dashed white;
+	border-radius: 70px;
+}
+
+.inparea {
+	background-color: lightgreen;
+	margin: 5px auto;
+	text-align: center;
+	padding: 10px;
+	width: 200px;
+	border: 1px dashed white;
+	border-radius: 5px;
+}
+
+input {
+	border: 3px solid blue;
+	border-radius: 10px;
+	width: 90%;
+	height: 20px;
+	margin: 4px;
+	font-family: 'Oswald', sans-serif;
+	background-color: lightgrey;
+}
+
+input:focus {
+	outline: none;
+	background-color: white;
+}
+
+button {
+	height: 40px;
+	width: 120px;
+	border-radius: 10px;
+	border: 2px solid red;
+	background-color: aquamarine;
+	font-family: 'Oswald', sans-serif;
+}
+
+button:hover {
+	border-color: blue;
+}
+
+button:focus {
+	outline: none;
+}
