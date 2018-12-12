@@ -57,9 +57,8 @@ let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 let app = express();
-//let http = require('http').Server(app)
-//let port = process.env.port || 8080
-//http.listen(port, () => console.log("listening on", port));
+let http = require('http').Server(app)
+let port = process.env.port || 8080
 //app is made
 
 //CreateCollection("users",ali);
@@ -177,7 +176,8 @@ app.get('/profile' ,function(req , response){
 //     res.status(err.status).send(err.message)
 // });
 
-app.listen(8000, function(){
-    console.log("server is runing :) ");
-});
+// app.listen(8000, function(){
+//     console.log("server is runing :) ");
+// });
 
+http.listen(port, () => console.log("listening on", port));
