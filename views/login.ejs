@@ -7,10 +7,10 @@
 	</head>
 	<body>
 		<div id="div">
-			<form method = "Post" action="">
-			<!--action = <%= page.profile%> >-->
+			<form method = "Post" action = "/login" >
 				<div class="title">
 					<h1>Let's Login</h1>
+
 				</div>
 				<div class="inparea">
 					<input placeholder="University Code" type="text" name="universityCode">
@@ -21,7 +21,7 @@
                 </div>
 
             </form>
-            <form method = "Post" action= <%= page.signup %> >
+            <form method = "GET" action= "/signup" >
                 <button type="submit" >Sign up</button>
             </form>
         </div>

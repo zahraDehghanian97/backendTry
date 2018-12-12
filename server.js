@@ -25,15 +25,6 @@ db.once('open', function() {
 
 let user = require('./models').user;
 
-let nodemailer = require('nodemailer');
-let mailOptions = {
-    from: 'youremail@gmail.com',
-    to: 'myfriend@yahoo.com',
-    subject: 'Sending Email using Node.js',
-    text: '123456:))'
-  };
-let transporter = require('./models').CreateTransport;
-
 // let samin =  user({
 //     universityCode : "sam",
 //     password : "ans",
@@ -51,7 +42,7 @@ let transporter = require('./models').CreateTransport;
 console.log("khobi?");
 
 
-page = {login : "/login",profile : "/Users/profile", signup : "/signup", last : "/login" }
+page = {login : "/login",profile : "/profile", signup : "/signup", last : "/login" }
 // web pages
  
 let bodyParser = require('body-parser')
@@ -92,18 +83,8 @@ app.use('/login',urlencodedParser,function(req , res, next){
         else
         {
             id = docs[0]._id;
-            docs[0].authenticateId = id;
-            docs[0].save(function(err)
-            {
-                if (err) throw err;
-            });
-
-            console.log(docs[0].authenticateId );
-
-
-
             res.writeHead(302, {
-                'Location': '/Users/profile'
+                'Location': '/profile'
                 //add other headers here...
               });
             //res.render('profile',docs[0])
@@ -129,27 +110,16 @@ app.use('/signup' , urlencodedParser , function(req , response){
     password : req.body.password,
     confirmPassword : req.body.confirmPassword
     });
+    console.log(user._id);
     console.log(newUser);
     if(newUser.password == newUser.confirmPassword)
     {
         console.log("asdasds");
         newUser.save(function(err)
         {
-            if (err) throw err;
+            if (err) throw("skdjbausdguyavsduvasdgv");
+            console.log("u are added");
         });
-        transporter.sendMail(mailOptions, function(error, info)
-        {
-            if (error)
-            {
-                console.log(error);
-            }
-            else 
-            {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-        console.log("u are added");
-        
         
         response.writeHead(302, {
         'Location': '/login'
@@ -167,32 +137,17 @@ app.use('/signup' , urlencodedParser , function(req , response){
 
 
 
-console.log("profile debug");
-app.use('/Users/profile' ,function(req , response){
+
+app.get('/profile' ,function(req , response){
     console.log("page : " + page.profile);
     // enter to profile
     console.log(id, ": haza id");
     user.find({_id : id}).exec(function(err, docs){
-        if(docs[0].authenticateId == docs[0]._id)
-        {
-            console.log('profile dg');
-            response.render('profile',docs[0]);
-        }
-        else
-        {
-            response.writeHead(302, {
-                'Location': '/login'
-                //add other headers here...
-                });
-                response.end();
-        }
+        console.log(docs[0]);
+        response.render('profile',docs[0]);
     });
     });            
     
-
-
-
-
 
 
 //app.use(page.mail , function(req , response , next){
