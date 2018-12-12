@@ -54,7 +54,12 @@ let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 
+
+
 let app = express();
+let http = require('http').Server(app)
+let port = process.env.port || 8080
+http.listen(port, () => console.log("listening on", port));
 //app is made
 
 //CreateCollection("users",ali);
